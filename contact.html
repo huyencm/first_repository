@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>お問い合わせ | Ramen Tonkotsu</title>
+  <style>
+    :root {
+      --bg: #fff7f2;
+      --card-bg: #ffffff;
+      --primary: #ff7a3c;
+      --primary-soft: #ffe0ce;
+      --accent: #ffb347;
+      --text-main: #222222;
+      --text-muted: #666666;
+      --border: #f0d2c0;
+      --error: #e11d48;
+      --radius-lg: 18px;
+      --radius-md: 10px;
+      --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.08);
+      --shadow-focus: 0 0 0 3px rgba(255, 122, 60, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background:
+        radial-gradient(circle at 0% 0%, #ffe4e1 0, transparent 45%),
+        radial-gradient(circle at 100% 100%, #fff1d6 0, transparent 45%),
+        var(--bg);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 16px;
+    }
+
+    .contact-shell {
+      width: 100%;
+      max-width: 1040px;
+      background: linear-gradient(135deg, #fffdfb, #fff4eb);
+      border-radius: 26px;
+      padding: 1px;
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-shell::before {
+      content: "";
+      position: absolute;
+      inset: -80px -40px auto auto;
+      background:
+        radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.36), transparent 60%),
+        radial-gradient(circle at 100% 0, rgba(255, 179, 71, 0.25), transparent 55%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .contact-inner {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 32px;
+      padding: 28px 28px 28px 32px;
+      border-radius: 25px;
+      background: radial-gradient(circle at 0 0, #fffaf7 0, #ffffff 45%, #fffaf6 100%);
+    }
+
+    @media (max-width: 840px) {
+      .contact-inner {
+        grid-template-columns: minmax(0, 1fr);
+        padding: 24px 20px 20px;
+      }
+    }
+
+    .contact-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(255, 122, 60, 0.12);
+      color: var(--primary);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--primary);
+      box-shadow: 0 0 0 4px rgba(255, 122, 60, 0.3);
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(22px, 3vw, 26px);
+      letter-spacing: 0.04em;
+    }
+
+    .subtitle {
+      margin: 0;
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .form {
+      margin-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .row > .field {
+      flex: 1 1 160px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #444;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .required {
+      font-size: 11px;
+      padding: 1px 6px;
+      border-radius: 999px;
+      background: rgba(225, 29, 72, 0.07);
+      color: var(--error);
+      font-weight: 600;
+    }
+
+    input,
+    select,
+    textarea {
+      font: inherit;
+      padding: 10px 11px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      background: #fffdfb;
+      color: var(--text-main);
+      outline: none;
+      transition: border-color 0.16s ease, box-shadow 0.16s ease,
+        background-color 0.16s ease, transform 0.05s ease;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #b0a6a0;
+    }
+
+    input:hover,
+    select:hover,
+    textarea:hover {
+      border-color: #f1b793;
+      background: #fffdf7;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--primary);
+      background: #ffffff;
+      box-shadow: var(--shadow-focus);
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .help {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .choices {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .choice-label {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 11px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #fffdfb;
+      font-size: 12px;
+      color: #444;
+      cursor: pointer;
+      transition: background 0.16s ease, border-color 0.16s ease,
+        box-shadow 0.16s ease, transform 0.05s ease;
+    }
+
+    .choice-label input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .choice-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      border: 2px solid #d1b7a5;
+      background: #fffdfb;
+      box-sizing: border-box;
+      transition: border-color 0.16s ease, background 0.16s ease;
+    }
+
+    .choice-label:hover {
+      border-color: #f1b793;
+      background: #fffaf4;
+    }
+
+    .choice-label:has(input:checked) {
+      border-color: var(--primary);
+      background: linear-gradient(135deg, #ff7a3c, #ffb347);
+      color: #111111;
+      box-shadow: 0 10px 24px rgba(255, 122, 60, 0.35);
+      transform: translateY(-1px);
+    }
+
+    .choice-label:has(input:checked) .choice-dot {
+      border-color: #fff7ed;
+      background: #ffffff;
+    }
+
+    .footer-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 14px;
+      margin-top: 4px;
+      justify-content: space-between;
+    }
+
+    .policy {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--text-muted);
+      max-width: 420px;
+    }
+
+    .policy input {
+      margin-top: 2px;
+      width: 16px;
+      height: 16px;
+      min-width: 16px;
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-left: auto;
+    }
+
+    .btn-main {
+      border: none;
+      cursor: pointer;
+      padding: 9px 20px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #ff7a3c, #ffb347);
+      color: #111111;
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 12px 28px rgba(255, 122, 60, 0.35);
+      transition: transform 0.08s ease, box-shadow 0.1s ease,
+        filter 0.12s ease;
+    }
+
+    .btn-main span.icon {
+      display: inline-flex;
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.92);
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+    }
+
+    .btn-main:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.03);
+      box-shadow: 0 16px 32px rgba(255, 122, 60, 0.4);
+    }
+
+    .btn-main:active {
+      transform: translateY(0);
+      box-shadow: 0 8px 18px rgba(255, 122, 60, 0.35);
+    }
+
+    .btn-sub {
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      padding: 7px 14px;
+      font-size: 12px;
+      background: rgba(0, 0, 0, 0.04);
+      color: #444;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.12s ease, color 0.12s ease,
+        transform 0.05s ease;
+    }
+
+    .btn-sub:hover {
+      background: rgba(0, 0, 0, 0.07);
+      transform: translateY(-1px);
+    }
+
+    .side {
+      position: relative;
+      padding: 16px 4px 8px 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .pill {
+      align-self: flex-start;
+      padding: 4px 10px;
+      font-size: 11px;
+      border-radius: 999px;
+      background: rgba(255, 179, 71, 0.14);
+      color: #b45309;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #f97316;
+    }
+
+    .side h2 {
+      margin: 0;
+      font-size: 15px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #1f2933;
+    }
+
+    .side p {
+      margin: 0;
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .info-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 6px;
+      font-size: 12px;
+    }
+
+    .info-item {
+      display: flex;
+      gap: 8px;
+      color: var(--text-muted);
+    }
+
+    .info-label {
+      min-width: 72px;
+      font-weight: 600;
+      color: #444;
+    }
+
+    .hours {
+      margin-top: 10px;
+      padding: 8px 10px;
+      border-radius: 14px;
+      background: rgba(255, 122, 60, 0.06);
+      border: 1px dashed rgba(255, 122, 60, 0.35);
+      font-size: 11px;
+      color: #7c4a2c;
+    }
+
+    .hours strong {
+      font-weight: 700;
+    }
+
+    .note {
+      margin-top: 4px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .back-link {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      font-size: 11px;
+      color: #6b7280;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .back-link span.icon {
+      display: inline-flex;
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      border: 1px solid #d1d5db;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+    }
+
+    .back-link:hover {
+      color: #374151;
+    }
+  </style>
+</head>
+<body>
+  <div class="contact-shell">
+    <div class="contact-inner">
+      <section>
+        <div class="contact-header">
+          <div class="badge">
+            <span class="badge-dot"></span>
+            CONTACT
+          </div>
+        </div>
+        <h1>お問い合わせ</h1>
+        <p class="subtitle">
+          ご予約、ご相談、メニューについてなど、お気軽にお問い合わせください。<br />
+          担当スタッフが内容を確認のうえ、できるだけ早くご返信いたします。
+        </p>
+
+        <form class="form">
+          <div class="row">
+            <div class="field">
+              <label for="name">
+                お名前
+                <span class="required">必須</span>
+              </label>
+              <input id="name" name="name" type="text" autocomplete="name" placeholder="例）山田 太郎" required />
+            </div>
+            <div class="field">
+              <label for="kana">
+                フリガナ
+              </label>
+              <input id="kana" name="kana" type="text" placeholder="例）ヤマダ タロウ" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="field">
+              <label for="email">
+                メールアドレス
+                <span class="required">必須</span>
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autocomplete="email"
+                placeholder="例）ramen@example.com"
+                required
+              />
+              <p class="help">メールアドレスの誤入力にご注意ください。</p>
+            </div>
+            <div class="field">
+              <label for="tel">
+                電話番号
+              </label>
+              <input
+                id="tel"
+                name="tel"
+                type="tel"
+                inputmode="tel"
+                placeholder="例）090-1234-5678"
+              />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="type">
+              お問い合わせ種別
+              <span class="required">必須</span>
+            </label>
+            <select id="type" name="type" required>
+              <option value="" hidden>選択してください</option>
+              <option value="reservation">ご予約について</option>
+              <option value="menu">メニュー・アレルギーについて</option>
+              <option value="takeout">お持ち帰り・デリバリーについて</option>
+              <option value="recruit">採用・アルバイトについて</option>
+              <option value="other">その他のお問い合わせ</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>
+              ご希望のご連絡方法
+            </label>
+            <div class="choices">
+              <label class="choice-label">
+                <span class="choice-dot"></span>
+                <input type="radio" name="contactMethod" value="email" checked />
+                メールでの連絡を希望
+              </label>
+              <label class="choice-label">
+                <span class="choice-dot"></span>
+                <input type="radio" name="contactMethod" value="phone" />
+                電話での連絡を希望
+              </label>
+              <label class="choice-label">
+                <span class="choice-dot"></span>
+                <input type="radio" name="contactMethod" value="either" />
+                どちらでもよい
+              </label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="field">
+              <label for="datetime">
+                ご希望の日時
+              </label>
+              <input
+                id="datetime"
+                name="datetime"
+                type="text"
+                placeholder="例）平日 18:00〜19:00 など"
+              />
+              <p class="help">ご予約希望の場合のみご入力ください。</p>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="message">
+              お問い合わせ内容
+              <span class="required">必須</span>
+            </label>
+            <textarea
+              id="message"
+              name="message"
+              placeholder="ご質問・ご要望・人数・アレルギー情報などをできるだけ詳しくご記入ください。"
+              required
+            ></textarea>
+          </div>
+
+          <div class="footer-row">
+            <label class="policy">
+              <input type="checkbox" name="agree" required />
+              <span>
+                個人情報の取り扱いに同意します。<br />
+                ご入力いただいた内容は、お問い合わせ対応の目的のみに利用し、第三者へ提供することはありません。
+              </span>
+            </label>
+
+            <div class="actions">
+              <button type="button" class="btn-sub" onclick="window.location.href='index.html'">
+                もどる
+              </button>
+              <button type="submit" class="btn-main">
+                <span class="icon">✓</span>
+                この内容で送信する
+              </button>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <aside class="side">
+        <a href="index.html" class="back-link">
+          <span class="icon">←</span>
+          トップページへ
+        </a>
+
+        <div class="pill">
+          <span class="pill-dot"></span>
+          Ramen Tonkotsu
+        </div>
+
+        <h2>店舗情報</h2>
+        <p>
+          ラーメン一杯で、今日が少しだけあたたかくなるように。<br />
+          小さなお子さま連れでも安心してご来店いただけるお店を目指しています。
+        </p>
+
+        <div class="info-list">
+          <div class="info-item">
+            <div class="info-label">住所</div>
+            <div>〒000-0000<br />東京都〇〇区〇〇 1-2-3 Ramen Bldg. 1F</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">TEL</div>
+            <div>0901-778-123</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">メール</div>
+            <div>info@ramen-tonkotsu.example.com</div>
+          </div>
+        </div>
+
+        <div class="hours">
+          <strong>営業時間</strong><br />
+          月〜金：11:00〜15:00 / 17:00〜22:00<br />
+          土日祝：11:00〜22:00（通し営業）<br />
+          定休日：水曜日
+        </div>
+
+        <p class="note">
+          ランチタイム（12:00〜13:30）は大変混み合うため、<br />
+          お席のご予約は 17:00 以降がおすすめです。
+        </p>
+      </aside>
+    </div>
+  </div>
+</body>
+</html>
+
